@@ -27,6 +27,7 @@ provider:
     stage: dev
     region: ap-south-1
     timeout: 60
+    profile: eva4p2
 
 # you can overwrite defaults here
 #  stage: dev
@@ -53,21 +54,22 @@ provider:
 #    variable1: value1
 
 custom:
-    dockerizePip: true
-    zip: true
-    slim: true
-    strip: false
-    noDeploy:
-        - docUtils
-        - jmespath
-        - pip
-        - python-dateutil
-        - setuptools
-        - six
-        - tensorboard
-    useStaticCache: true
-    useDownloadCache: true
-    cacheLocation: ./cache
+    pythonRequirements:
+        dockerizePip: true
+        zip: true
+        slim: true
+        strip: false
+        noDeploy:
+            - docUtils
+            - jmespath
+            - pip
+            - python-dateutil
+            - setuptools
+            - six
+            - tensorboard
+        useStaticCache: true
+        useDownloadCache: true
+        cacheLocation: ./cache
 # you can add packaging information here
 package:
     individually: false,
@@ -80,6 +82,9 @@ package:
         - __pycache__/**
         - .pytest_cache/**
         - model/**
+        - .venv/**
+        - .serverless/**
+        - .gitignore
 
 
 functions:
@@ -88,10 +93,10 @@ functions:
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
-#    events:
-#      - http:
-#          path: users/create
-#          method: get
+        events:
+            - http:
+                path: week1-dev-hello
+                method: get
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
