@@ -83,6 +83,7 @@ package:
         - .pytest_cache/**
         - model/**
         - .venv/**
+        - .vscode/**
         - .serverless/**
         - .gitignore
 
@@ -95,8 +96,8 @@ functions:
 #    Check the event documentation for details
         events:
             - http:
-                path: week1-dev-hello
-                method: get
+                  path: week1-dev-hello
+                  method: get
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
@@ -141,6 +142,14 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
-
+    classify_image:
+        handler: handler.classify_image
+        memorySize: 3008
+        timeout: 60
+        events:
+            - http:
+                  path: classify
+                  method: post
+                  cors: true
 plugins:
     - serverless-python-requirements

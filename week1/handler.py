@@ -1,18 +1,24 @@
 import json
-import torch
-from PIL import Image
-from torchvision import transforms
-import base64
-from requests_toolbelt.multipart import decoder
 import logging
+
+import utils
+
 logger = logging.getLogger("Lambda Handler")
+
+headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": True,
+}
+S3_BUCKET = "eva4-p2"
+
 
 def hello(event, context):
     body = {
         "message": "Go Serverless v1.0! Your function executed successfully!",
         "input": event,
     }
-    print('Testing hello of eva4p2')
+    print("Testing hello of eva4p2")
 
     response = {"statusCode": 200, "body": json.dumps(body)}
 
@@ -26,15 +32,23 @@ def hello(event, context):
         "event": event
     }
     """
-def mobile_net_v2(event, context):
+
+
+def classify_image(event, context):
     try:
-        content_type_header =event["headers"]["content-type"]
-        body = base64.b64decode(event["body"])
-        logger.info("Body Loaded")
-
-        picture = decoder.MultipartDecoder(body, content_type_header).parts[0]
-        picture_tensor = _transform_image(picture.content)
-        prediction = _get_prediction(image_tensor = picture_tensor)
-
-    except expression as identifier:
-        pass
+        picture = utils.get_image_from_context(event)
+        picture_tensor = utils.transform_image(picture.content)
+        model = utils.load_model(S3_BUCKET, "mobilenet_v2")
+        prediction = utils.get_prediction(picture_tensor, model)
+        return {
+            "statusCode": 200,
+            "headers": headers,
+            "body": json.dumps({"predicted": prediction}),
+        }
+    except Exception as e:
+        logger.exception(e)
+        return {
+            "statusCode": 500,
+            "headers": headers,
+            "body": json.dumps({"error": repr(e)}),
+        }
