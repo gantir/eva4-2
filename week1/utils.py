@@ -11,25 +11,37 @@ import os
 import boto3
 import torch
 import torchvision.transforms as transforms
+from torchvision.models import resnet, mobilenet
+
 from PIL import Image
 from requests_toolbelt.multipart import decoder
 
 # Retrieve the logger instance
 logger = logging.getLogger()
 
-models_filename = {
-    "mobilenet_v2": "mobilenet_v2-b0353104.pth",
-    "resnet34": "resnet34-333f7ec4.pth",
+model_func_map = {
+    "mobilenet_v2": mobilenet.mobilenet_v2,
+    "resnet34": resnet.resnet34,
 }
+
+
+def save_pretrained_model(model_name):
+    try:
+        model_func = model_func_map[model_name]
+        model = model_func(pretrained=True)
+        model.eval()
+        # trace model with dummy input
+        traced_model = torch.jit.trace(model, torch.randn(1, 3, 224, 224))
+        traced_model.save(f"./models/{model_name}.pt")
+    except Exception as e:
+        logger.exception(e)
 
 
 def load_model(s3_bucket: str, model_name: str):
     try:
         # s3 = boto3.session.Session(profile_name='eva4p2').client("s3") # noqa
         s3 = boto3.client("s3")
-        model_path = os.path.join(
-            "artifacts/models", models_filename[model_name]
-        )
+        model_path = os.path.join("artifacts/models", f"{model_name}.pt")
         obj = s3.get_object(Bucket=s3_bucket, Key=model_path)
         logger.info("Creating Byte Stream")
         bytestream = io.BytesIO(obj["Body"].read())
