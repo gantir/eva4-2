@@ -86,6 +86,7 @@ package:
         - .vscode/**
         - .serverless/**
         - .gitignore
+        - .DS_Store
 
 
 functions:

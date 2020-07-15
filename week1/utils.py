@@ -1,3 +1,8 @@
+try:
+    import unzip_requirements  # noqa
+except ImportError:
+    pass
+
 import base64
 import io
 import logging

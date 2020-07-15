@@ -1,3 +1,8 @@
+try:
+    import unzip_requirements  # noqa
+except ImportError:
+    pass
+
 import json
 import logging
 
@@ -36,7 +41,7 @@ def hello(event, context):
 
 def classify_image(event, context):
     try:
-        picture = utils.get_image_from_context(event)
+        picture = utils.get_image_from_event(event)
         picture_tensor = utils.transform_image(picture.content)
         model = utils.load_model(S3_BUCKET, "mobilenet_v2")
         prediction = utils.get_prediction(picture_tensor, model)
