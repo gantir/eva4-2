@@ -14,12 +14,17 @@ import torchvision.transforms as transforms
 from PIL import Image
 from requests_toolbelt.multipart import decoder
 
-logger = logging.getLogger("Lambda Handler")
-models_filename = {"mobilenet_v2": "mobilenet_v2-b0353104.pth"}
+logger = logging.getLogger("LambdaHandler")
+
+models_filename = {
+    "mobilenet_v2": "mobilenet_v2-b0353104.pth",
+    "resnet34": "resnet34-333f7ec4.pth",
+}
 
 
 def load_model(s3_bucket: str, model_name: str):
     try:
+        # s3 = boto3.session.Session(profile_name='eva4p2').client("s3") # noqa
         s3 = boto3.client("s3")
         model_path = os.path.join(
             "artifacts/models", models_filename[model_name]

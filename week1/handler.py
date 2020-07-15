@@ -7,8 +7,10 @@ import json
 import logging
 
 import utils
+import sys
 
-logger = logging.getLogger("Lambda Handler")
+logger = logging.getLogger("LambdaHandler")
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 headers = {
     "Content-Type": "application/json",
