@@ -14,7 +14,8 @@ import torchvision.transforms as transforms
 from PIL import Image
 from requests_toolbelt.multipart import decoder
 
-logger = logging.getLogger("LambdaHandler")
+# Retrieve the logger instance
+logger = logging.getLogger()
 
 models_filename = {
     "mobilenet_v2": "mobilenet_v2-b0353104.pth",
