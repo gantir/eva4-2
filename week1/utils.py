@@ -21,7 +21,9 @@ models_filename = {"mobilenet_v2": "mobilenet_v2-b0353104.pth"}
 def load_model(s3_bucket: str, model_name: str):
     try:
         s3 = boto3.client("s3")
-        model_path = os.join("artifacts/models", models_filename[model_name])
+        model_path = os.path.join(
+            "artifacts/models", models_filename[model_name]
+        )
         obj = s3.get_object(Bucket=s3_bucket, Key=model_path)
         logger.info("Creating Byte Stream")
         bytestream = io.BytesIO(obj["Body"].read())
