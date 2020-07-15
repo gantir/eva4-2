@@ -7,6 +7,7 @@ import base64
 import io
 import logging
 import os
+import json
 
 import boto3
 import torch
@@ -23,6 +24,16 @@ model_func_map = {
     "mobilenet_v2": mobilenet.mobilenet_v2,
     "resnet34": resnet.resnet34,
 }
+
+
+def imagenet_classidx_to_labels(class_idx: int) -> str:
+    try:
+        with open("data/imagenet1000_clsidx_to_labels.json", "r") as f:
+            map = json.loads(f.read())
+            return map[str(class_idx)]
+    except Exception as e:
+        logger.exception(e)
+        return "Class Not Found"
 
 
 def save_pretrained_model(model_name):

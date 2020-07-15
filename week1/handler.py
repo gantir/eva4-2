@@ -47,11 +47,14 @@ def classify_image(event, context):
         picture = utils.get_image_from_event(event)
         picture_tensor = utils.transform_image(picture.content)
         model = utils.load_model(S3_BUCKET, "mobilenet_v2")
-        prediction = utils.get_prediction(picture_tensor, model)
+        prediction_idx = utils.get_prediction(picture_tensor, model)
+        prediction_label = utils.imagenet_classidx_to_labels(prediction_idx)
         return {
             "statusCode": 200,
             "headers": headers,
-            "body": json.dumps({"predicted": prediction}),
+            "body": json.dumps(
+                {"predicted": (prediction_idx, prediction_label)}
+            ),
         }
     except Exception as e:
         logger.exception(e)
