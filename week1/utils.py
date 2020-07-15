@@ -20,6 +20,16 @@ from requests_toolbelt.multipart import decoder
 # Retrieve the logger instance
 logger = logging.getLogger()
 
+
+def get_image_from_event(event):
+    content_type_header = event["headers"]["content-type"]
+    body = base64.b64decode(event["body"])
+    logger.info("Body Loaded")
+
+    picture = decoder.MultipartDecoder(body, content_type_header).parts[0]
+    return picture
+
+
 model_func_map = {
     "mobilenet_v2": mobilenet.mobilenet_v2,
     "resnet34": resnet.resnet34,
@@ -82,22 +92,3 @@ def transform_image(image_bytes):
     except Exception as e:
         logger.exception(e)
         raise (e)
-
-
-def get_image_from_event(event):
-    content_type_header = event["headers"]["content-type"]
-    body = base64.b64decode(event["body"])
-    logger.info("Body Loaded")
-
-    picture = decoder.MultipartDecoder(body, content_type_header).parts[0]
-    return picture
-
-
-def get_prediction(image_tensor, model):
-    if torch.cuda.is_available():
-        image_tensor = image_tensor.to("cuda")
-        model.to("cuda")
-    with torch.no_grad():
-        output = model(image_tensor).argmax().item()
-        logger.info(output)
-        return output

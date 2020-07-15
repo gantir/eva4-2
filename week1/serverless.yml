@@ -91,6 +91,7 @@ package:
         - .vscode/**
         - .serverless/**
         - .gitignore
+        - .editorconfig
         - .DS_Store
 
 
