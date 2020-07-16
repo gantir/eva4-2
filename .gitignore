@@ -1,0 +1,6 @@
+**.venv/
+**cache/
+**.requirements.zip
+**/.vscode/.ropeproject/
+**.DS_Store
+**__pycache__/
