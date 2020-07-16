@@ -17,7 +17,7 @@ On Request:
 5. Map the class index to human readable label name
 
 API:
-Not pasting the API here as it can be crawled by bots and will incurr cost. Please mail me if you want the endpoint for imagenet classification
+Not pasting the API link here as it can be crawled by bots and will incurr cost. Please mail me if you want the endpoint for imagenet classification
 
 References:
 https://pytorch.org/tutorials/beginner/Intro_to_TorchScript_tutorial.html
