@@ -22,7 +22,7 @@ class ImageNetHelper:
         self._model_name = model_name
         self._model_func = _model_func_map[model_name]
 
-    def imagenet1000_classidx_label_map(self) -> dict:
+    def imagenet1000_classidx_label_dict(self) -> dict:
         try:
             with open("data/imagenet1000_clsidx_to_labels.json", "r") as f:
                 map = json.loads(f.read())
@@ -33,7 +33,7 @@ class ImageNetHelper:
 
     def imagenet1000_classidx_to_label(self, class_idx: int) -> str:
         try:
-            map = json.loads(self.imagenet1000_classidx_label_map())
+            map = self.imagenet1000_classidx_label_dict()
             return map[str(class_idx)]
         except Exception as e:
             logger.exception(e)

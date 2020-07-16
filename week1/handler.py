@@ -50,7 +50,9 @@ def classify_image(event, context):
         img_net.load_model(S3_BUCKET)
         picture_tensor = img_net.transform_image(picture.content)
         prediction_idx = img_net.get_prediction(picture_tensor)
-        prediction_label = img_net.imagenet_classidx_to_labels(prediction_idx)
+        prediction_label = img_net.imagenet1000_classidx_to_label(
+            prediction_idx
+        )
         return {
             "statusCode": 200,
             "headers": headers,
