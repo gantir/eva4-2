@@ -1,8 +1,16 @@
+import io
+import json
+import logging
+import os
+
+import boto3
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
 from torchvision.models import mobilenet
 from torchvision.models import resnet
+
+logger = logging.getLogger()
 
 
 class ImageNetHelper:
@@ -56,7 +64,7 @@ class ImageNetHelper:
             logger.info("Model Loaded...")
             logger.info(model)
             logger.info(model.code)
-            return model
+            self._model = model
         except Exception as e:
             logger.exception(e)
             raise (e)
@@ -79,11 +87,11 @@ class ImageNetHelper:
             logger.exception(e)
             raise (e)
 
-    def get_prediction(self, image_tensor, model):
+    def get_prediction(self, image_tensor):
         if torch.cuda.is_available():
             image_tensor = image_tensor.to("cuda")
-            model.to("cuda")
+            self._model.to("cuda")
         with torch.no_grad():
-            output = model(image_tensor).argmax().item()
+            output = self._model(image_tensor).argmax().item()
             logger.info(output)
             return output

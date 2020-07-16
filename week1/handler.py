@@ -7,6 +7,7 @@ import json
 import logging
 
 import utils
+from imagenet import ImageNetHelper
 
 # Initialize you log configuration using the base class
 logging.basicConfig(level=logging.INFO)
@@ -45,10 +46,11 @@ def hello(event, context):
 def classify_image(event, context):
     try:
         picture = utils.get_image_from_event(event)
-        picture_tensor = utils.transform_image(picture.content)
-        model = utils.load_model(S3_BUCKET, "mobilenet_v2")
-        prediction_idx = utils.get_prediction(picture_tensor, model)
-        prediction_label = utils.imagenet_classidx_to_labels(prediction_idx)
+        img_net = ImageNetHelper("mobilenet_v2")
+        img_net.load_model(S3_BUCKET)
+        picture_tensor = img_net.transform_image(picture.content)
+        prediction_idx = img_net.get_prediction(picture_tensor)
+        prediction_label = img_net.imagenet_classidx_to_labels(prediction_idx)
         return {
             "statusCode": 200,
             "headers": headers,
