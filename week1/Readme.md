@@ -18,3 +18,6 @@ On Request:
 
 API:
 Not pasting the API here as it can be crawled by bots and will incurr cost. Please mail me if you want the endpoint for imagenet classification
+
+References:
+https://pytorch.org/tutorials/beginner/Intro_to_TorchScript_tutorial.html

@@ -54,6 +54,8 @@ class ImageNetHelper:
             logger.info("Loading model")
             model = torch.jit.load(bytestream)
             logger.info("Model Loaded...")
+            logger.info(model)
+            logger.info(model.code)
             return model
         except Exception as e:
             logger.exception(e)
