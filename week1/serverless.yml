@@ -27,7 +27,6 @@ provider:
     stage: dev
     region: ap-south-1
     timeout: 60
-    profile: eva4p2
     iamRoleStatements:
         - Effect: Allow
           Action:
