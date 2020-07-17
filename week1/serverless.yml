@@ -92,6 +92,7 @@ package:
         - .gitignore
         - .editorconfig
         - .DS_Store
+        - Readme.md
 
 
 functions:
