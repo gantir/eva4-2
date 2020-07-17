@@ -86,6 +86,7 @@ package:
         - __pycache__/**
         - .pytest_cache/**
         - model/**
+        - test/**
         - .venv/**
         - .vscode/**
         - .serverless/**
