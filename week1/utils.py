@@ -18,4 +18,23 @@ def get_image_from_event(event):
     logger.info("Body Loaded")
 
     picture = decoder.MultipartDecoder(body, content_type_header).parts[0]
-    return picture
+    filename = get_picture_filename(picture).replace('"', "")
+    return picture, filename
+
+
+def get_picture_filename(picture):
+    filename = (
+        picture.headers[b"Content-Disposition"]
+        .decode()
+        .split(":")[1]
+        .split("-")[1]
+    )
+    if 4 > len(filename):
+        filename = (
+            picture.headers[b"Content-Disposition"]
+            .decode()
+            .split(":")[2]
+            .split("-")[1]
+        )
+
+    return filename

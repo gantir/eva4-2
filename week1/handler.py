@@ -45,7 +45,7 @@ def hello(event, context):
 
 def classify_image(event, context):
     try:
-        picture = utils.get_image_from_event(event)
+        picture, filename = utils.get_image_from_event(event)
         img_net = ImageNetHelper("mobilenet_v2")
         img_net.load_model(S3_BUCKET)
         picture_tensor = img_net.transform_image(picture.content)
@@ -53,11 +53,15 @@ def classify_image(event, context):
         prediction_label = img_net.imagenet1000_classidx_to_label(
             prediction_idx
         )
+
         return {
             "statusCode": 200,
             "headers": headers,
             "body": json.dumps(
-                {"predicted": (prediction_idx, prediction_label)}
+                {
+                    "file": filename,
+                    "predicted": (prediction_idx, prediction_label),
+                }
             ),
         }
     except Exception as e:
