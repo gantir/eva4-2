@@ -25,7 +25,7 @@ API:
 Not pasting the API link here as it can be crawled by bots and will incurr cost. Please mail me if you want the endpoint for imagenet classification
 
 Result:
-![API Response](https://eva4-p2.s3.ap-south-1.amazonaws.com/artifacts/assignments/week1/labrador-retriever.png)
+![API Response](https://eva4-p2.s3.ap-south-1.amazonaws.com/artifacts/assignments/week1/labrador-retriever-1.png)
 
 References:
 https://pytorch.org/tutorials/beginner/Intro_to_TorchScript_tutorial.html
