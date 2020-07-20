@@ -4,12 +4,8 @@ except ImportError:
     pass
 
 import base64
-import logging
-
 from requests_toolbelt.multipart import decoder, encoder
-
-# Retrieve the logger instance
-logger = logging.getLogger()
+from src.logger import logger
 
 
 def get_image_from_event(event):

@@ -4,15 +4,15 @@ except ImportError:
     pass
 
 import json
-import logging
+import logging.config
+from src.logger import logger
 
-import utils
-from imagenet import ImageNetHelper
+import src.utils as utils
+from src.imagenet import ImageNetHelper
 
 # Initialize you log configuration using the base class
-logging.basicConfig(level=logging.INFO)
-# Retrieve the logger instance
-logger = logging.getLogger()
+logging.config.fileConfig("./logconfig.ini")
+
 
 headers = {
     "Content-Type": "application/json",
@@ -27,7 +27,7 @@ def hello(event, context):
         "message": "Go Serverless v1.0! Your function executed successfully!",
         "input": event,
     }
-    print("Testing hello of eva4p2")
+    logger.info("Testing hello of eva4p2")
 
     response = {"statusCode": 200, "body": json.dumps(body)}
 

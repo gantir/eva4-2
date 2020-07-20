@@ -1,16 +1,14 @@
 import io
 import json
-import logging
 import os
 
 import boto3
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
+from src.logger import logger
 from torchvision.models import mobilenet
 from torchvision.models import resnet
-
-logger = logging.getLogger()
 
 
 class ImageNetHelper:
