@@ -5,10 +5,10 @@ except ImportError:
 
 import json
 import logging.config
-from src.logger import logger
 
 import src.utils as utils
 from src.imagenet import ImageNetHelper
+from src.logger import logger
 
 # Initialize you log configuration using the base class
 logging.config.fileConfig("./logconfig.ini")
@@ -50,19 +50,12 @@ def classify_image(event, context):
         img_net.load_model(S3_BUCKET)
         picture_tensor = img_net.transform_image(picture.content)
         prediction_idx = img_net.get_prediction(picture_tensor)
-        prediction_label = img_net.imagenet1000_classidx_to_label(
-            prediction_idx
-        )
+        prediction_label = img_net.imagenet1000_classidx_to_label(prediction_idx)
 
         return {
             "statusCode": 200,
             "headers": headers,
-            "body": json.dumps(
-                {
-                    "file": filename,
-                    "predicted": (prediction_idx, prediction_label),
-                }
-            ),
+            "body": json.dumps({"file": filename, "predicted": (prediction_idx, prediction_label),}),
         }
     except Exception as e:
         logger.exception(e)

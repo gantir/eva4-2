@@ -51,9 +51,7 @@ class ImageNetHelper:
         try:
             # s3 = boto3.session.Session(profile_name='eva4p2').client("s3") # noqa
             s3 = boto3.client("s3")
-            model_path = os.path.join(
-                "artifacts/models", f"{self._model_name}.pt"
-            )
+            model_path = os.path.join("artifacts/models", f"{self._model_name}.pt")
             obj = s3.get_object(Bucket=s3_bucket, Key=model_path)
             logger.info("Creating Byte Stream")
             bytestream = io.BytesIO(obj["Body"].read())
@@ -74,9 +72,7 @@ class ImageNetHelper:
                     transforms.Resize(255),
                     transforms.CenterCrop(224),
                     transforms.ToTensor(),
-                    transforms.Normalize(
-                        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
-                    ),
+                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
                 ]
             )
             image = Image.open(io.BytesIO(image_bytes))

@@ -4,6 +4,7 @@ except ImportError:
     pass
 
 import base64
+
 from requests_toolbelt.multipart import decoder, encoder
 from src.logger import logger
 
@@ -19,19 +20,9 @@ def get_image_from_event(event):
 
 def get_picture_filename(picture):
     try:
-        filename = (
-            picture.headers[b"Content-Disposition"]
-            .decode()
-            .split(":")[1]
-            .split("-")[1]
-        )
+        filename = picture.headers[b"Content-Disposition"].decode().split(":")[1].split("-")[1]
         if 4 > len(filename):
-            filename = (
-                picture.headers[b"Content-Disposition"]
-                .decode()
-                .split(":")[2]
-                .split("-")[1]
-            )
+            filename = picture.headers[b"Content-Disposition"].decode().split(":")[2].split("-")[1]
     except Exception as e:
         filename = "not-found"
         logger.exception(e)
@@ -41,9 +32,7 @@ def get_picture_filename(picture):
 
 def get_multipartdata(file_path):
 
-    multipartdata = encoder.MultipartEncoder(
-        fields={"file": (file_path, open(file_path, "rb"))}
-    )
+    multipartdata = encoder.MultipartEncoder(fields={"file": (file_path, open(file_path, "rb"))})
     return multipartdata
 
 

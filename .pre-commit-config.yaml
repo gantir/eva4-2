@@ -1,4 +1,5 @@
 ---
+exclude: ^docs/conf.py
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v2.4.0
@@ -12,6 +13,7 @@ repos:
           - id: trailing-whitespace
             name: Fix trailing whitespace
             exclude: setup.cfg
+          - id: check-added-large-files
           - id: end-of-file-fixer
             name: Fix missing EOF
             exclude: setup.cfg
@@ -19,10 +21,17 @@ repos:
             name: Check exeutables for shebangs
           - id: check-merge-conflict
             name: Check for merge conflict fragments
+          - id: check-toml
+          - id: check-xml
+          - id: check-yaml
+          - id: end-of-file-fixer
           - id: check-case-conflict
+          - id: requirements-txt-fixer
             name: Check for filesystem character case conflicts
           - id: detect-private-key
             name: Check for cleartext private keys stored
+          - id: mixed-line-ending
+            args: [--fix=no]
           - id: flake8
             additional_dependencies:
                 - flake8-mutable
@@ -48,20 +57,20 @@ repos:
       hooks:
           - id: autopep8
             name: Pretty format Python
-      args:
-          - --in-place
-          - --aggressive
-          - --aggressive
-          - --experimental
-          - --remove-all-unused-imports
-          - --ignore-init-module-imports
-          - --remove-unused-variable
-          - --ignore E231
     - repo: https://github.com/psf/black
       rev: stable
       hooks:
           - id: black
             name: Ruthlessly format Python
             language_version: python3.8
-            args:
-                - --line-length=79
+    # - repo: https://github.com/pre-commit/mirrors-isort
+    #   rev: v4.3.4
+    #   hooks:
+    #       - id: isort
+    - repo: git@github.com:macisamuele/language-formatters-pre-commit-hooks
+      rev: v1.5.0
+      hooks:
+          - id: pretty-format-toml
+            args: [--autofix]
+          - id: pretty-format-toml
+            args: [--autofix]
