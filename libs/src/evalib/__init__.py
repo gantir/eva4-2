@@ -7,14 +7,14 @@ try:
     dist_name = __name__
     __version__ = get_distribution(dist_name).version
 
-    from . import utils  # noqa
-    from . import plot  # noqa
     from . import data  # noqa
     from . import datasets  # noqa
-    from . import models  # noqa
     from . import gradcam  # noqa
-    from . import tnt  # noqa
     from . import lr  # noqa
+    from . import models  # noqa
+    from . import plot  # noqa
+    from . import tnt  # noqa
+    from . import utils  # noqa
 
     __all__ = ["utils", "plot", "data", "models", "gradcam", "tnt"]
 except DistributionNotFound:
