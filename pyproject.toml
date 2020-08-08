@@ -2,6 +2,7 @@
 in-place = true
 aggressive = true
 experimental = true
+max-line-length = 120
 remove-all-unused-imports = true
 ignore-init-module-imports = true
 remove-unused-variable = true
