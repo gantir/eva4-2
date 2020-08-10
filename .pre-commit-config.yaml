@@ -71,6 +71,10 @@ repos:
             name: Validate JSON
           - id: check-ast
             name: Check Python abstract syntax tree
+    - repo: https://github.com/mgedmin/check-manifest
+      rev: '0.42'
+      hooks:
+          - id: check-manifest
     - repo: https://github.com/asottile/pyupgrade
       rev: v1.26.2
       hooks:
