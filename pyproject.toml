@@ -1,3 +1,7 @@
+[build-system]
+requires = [ "poetry>=0.12",]
+build-backend = "poetry.masonry.api"
+
 [tool.autopep8]
 in-place = true
 aggressive = true
@@ -15,3 +19,22 @@ exclude = "(\n  /(\n      \\.eggs         # exclude a few common directories in 
 
 [tool.check-manifest]
 ignore = [ "PKG-INFO", "*.egg-info", "*.egg-info/*", "setup.cfg", ".hgtags", ".hgsigs", ".hgignore", ".gitignore", ".bzrignore", ".gitattributes", ".github/*", ".travis.yml", "Jenkinsfile", "*.mo",]
+
+[tool.poetry]
+name = "eva4-p2"
+version = "0.1.0"
+description = "All the course work part of EVA4 Phase 2 for the RS Group."
+authors = [ "Ramjee Ganti <code@ramjeeganti.com>",]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+python-decouple = "^3.3"
+torch = "^1.6.0"
+torchvision = "^0.7.0"
+requests_toolbelt = "^0.9.1"
+
+[tool.poetry.dev-dependencies]
+pelican = "^4.2.0"
+rstcheck = "^3.3.1"
+markdown = "^3.2.2"

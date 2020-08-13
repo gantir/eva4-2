@@ -1,5 +1,4 @@
 ---
-exclude: ^docs/conf.py
 default_language_version:
     python: python3
 repos:
@@ -8,24 +7,24 @@ repos:
       hooks:
           - id: reorder-python-imports
             name: Reorder Python imports
-    # - repo: https://github.com/asottile/seed-isort-config
-    #   rev: v1.9.3
-    #   hooks:
-    #       - id: seed-isort-config
-    # - repo: https://github.com/timothycrosley/isort
-    #   rev: 5.3.0
-    #   hooks:
-    #       - id: isort
+  # - repo: https://github.com/asottile/seed-isort-config
+  #   rev: v1.9.3
+  #   hooks:
+  #       - id: seed-isort-config
+  # - repo: https://github.com/timothycrosley/isort
+  #   rev: 5.3.0
+  #   hooks:
+  #       - id: isort
     - repo: https://github.com/psf/black
       rev: stable
       hooks:
           - id: black
             name: Ruthlessly format Python with Black
-    # - repo: https://github.com/pre-commit/mirrors-autopep8
-    #   rev: v1.4.4
-    #   hooks:
-    #       - id: autopep8
-    #         name: Pretty format Python
+  # - repo: https://github.com/pre-commit/mirrors-autopep8
+  #   rev: v1.4.4
+  #   hooks:
+  #       - id: autopep8
+  #         name: Pretty format Python
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v2.4.0
       hooks:
@@ -39,6 +38,7 @@ repos:
             name: Fix trailing whitespace
             exclude: setup.cfg
           - id: check-added-large-files
+            args: [--maxkb=1024]
           - id: end-of-file-fixer
             name: Fix missing EOF
             exclude: setup.cfg
@@ -71,10 +71,10 @@ repos:
             name: Validate JSON
           - id: check-ast
             name: Check Python abstract syntax tree
-    - repo: https://github.com/mgedmin/check-manifest
-      rev: '0.42'
-      hooks:
-          - id: check-manifest
+  # - repo: https://github.com/mgedmin/check-manifest
+  #   rev: "0.42"
+  #   hooks:
+  #     - id: check-manifest
     - repo: https://github.com/asottile/pyupgrade
       rev: v1.26.2
       hooks:
