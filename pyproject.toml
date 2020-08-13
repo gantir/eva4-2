@@ -33,6 +33,7 @@ python-decouple = "^3.3"
 torch = "^1.6.0"
 torchvision = "^0.7.0"
 requests_toolbelt = "^0.9.1"
+dlib = "^19.21.0"
 
 [tool.poetry.dev-dependencies]
 pelican = "^4.2.0"
