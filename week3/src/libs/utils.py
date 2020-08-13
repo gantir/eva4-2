@@ -6,16 +6,27 @@ except ImportError:
 import base64
 from requests_toolbelt.multipart import decoder, encoder
 
-from src.logger import logger
+from src.libs.logger import logger
 
 
-def get_image_from_event(event):
-    content_type_header = event["headers"]["content-type"]
-    body = base64.b64decode(event["body"])
-    logger.info("Body Loaded")
+def _decode_multipart_file(multi_part_file, content_type_header):
+    body = base64.b64decode(multi_part_file)
     picture = decoder.MultipartDecoder(body, content_type_header).parts[0]
     filename = get_picture_filename(picture).replace('"', "")
     return picture, filename
+
+
+def get_images_from_event(event, max_files=1):
+    content_type_header = event["headers"]["content-type"]
+    pics = event["files"]
+    pic_details = []
+    if str == type(pics):
+        pic_details.append(_decode_multipart_file(pics, content_type_header))
+    else:
+        for i, pic in enumerate(pics):
+            pic_details.append(_decode_multipart_file(pic, content_type_header))
+
+    return pic_details[0:max_files]
 
 
 def get_picture_filename(picture):

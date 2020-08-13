@@ -4,14 +4,8 @@ except ImportError:
     pass
 
 import json
-import logging
-import utils
-from imagenet import ImageNetHelper
-
-# Initialize you log configuration using the base class
-logging.basicConfig(level=logging.INFO)
-# Retrieve the logger instance
-logger = logging.getLogger()
+from src.libs import utils
+from src.libs.logger import logger
 
 headers = {
     "Content-Type": "application/json",
@@ -42,22 +36,50 @@ def hello(event, context):
     """
 
 
-def classify_image(event, context):
+def align_face(event, context):
     try:
-        picture, filename = utils.get_image_from_event(event)
-        img_net = ImageNetHelper("mobilenet_v2")
-        img_net.load_model(S3_BUCKET)
-        picture_tensor = img_net.transform_image(picture.content)
-        prediction_idx = img_net.get_prediction(picture_tensor)
-        prediction_label = img_net.imagenet1000_classidx_to_label(prediction_idx)
+        pictures = utils.get_image_from_event(event)
+        # picture_tensor = img_net.transform_image(pictures[0].content)
 
-        return {
-            "statusCode": 200,
-            "headers": headers,
-            "body": json.dumps({"file": filename, "predicted": (prediction_idx, prediction_label),}),
-        }
+        # has_human = check_human_image(picture_tensor) & check_face(picture_tensor)
+        has_human = False
+        if not has_human:
+            return {
+                "statusCode": 422,
+                "headers": headers,
+                "body": json.dumps({"error": "The submitted image doesn't have a human"}),
+            }
+        else:
+            # aligned_face = get_aligned_face(picture_tensor)
+            return {
+                "statusCode": 200,
+                "headers": headers,
+            }
+
     except Exception as e:
-        logger.exception(e)
+        return {
+            "statusCode": 500,
+            "headers": headers,
+            "body": json.dumps({"error": repr(e)}),
+        }
+
+
+def face_swap(event, context):
+    try:
+        pictures = utils.get_images_from_event(event, max_files=2)
+        from requests_toolbelt.multipart import encoder
+        import base64
+
+        # mpencoder = encoder.MultipartEncoder(
+        fields = {
+            "file1": ("file1.jpg", base64.b64encode(pictures[0][0].content).decode("utf-8"), "image/jpg"),
+            "file2": ("file2.png", base64.b64encode(pictures[0][0].content).decode("utf-8"), "image/jpg"),
+        }
+        # )
+
+        return {"statusCode": 200, "headers": headers, "body": json.dumps(fields)}
+
+    except Exception as e:
         return {
             "statusCode": 500,
             "headers": headers,
