@@ -9,31 +9,36 @@ from requests_toolbelt.multipart import decoder, encoder
 from src.libs.logger import logger
 
 
-def _decode_multipart_file(multi_part_file, content_type_header):
-    body = base64.b64decode(multi_part_file)
-    picture = decoder.MultipartDecoder(body, content_type_header).parts[0]
-    filename = get_picture_filename(picture).replace('"', "")
-    return picture, filename
-
-
 def get_images_from_event(event, max_files=1):
-    content_type_header = event["headers"]["content-type"]
-    pics = event["files"]
-    pic_details = []
-    if str == type(pics):
-        pic_details.append(_decode_multipart_file(pics, content_type_header))
-    else:
-        for i, pic in enumerate(pics):
-            pic_details.append(_decode_multipart_file(pic, content_type_header))
+    try:
+        pic_details = []
 
-    return pic_details[0:max_files]
+        content_type_header = event["headers"]["content-type"]
+
+        body = base64.b64decode(event["body"])
+        if type(event["body"]) is str:
+            event["body"] = bytes(event["body"], "utf-8")
+
+        pictures = decoder.MultipartDecoder(body, content_type_header)
+        for part in pictures.parts:
+            filename = get_picture_filename(part).replace('"', "")
+            pic_details.append((part, filename))
+
+        logger.info(f"len: {len(pic_details)}")
+
+        return pic_details[0:max_files]
+
+    except Exception as e:
+        logger.exception(e)
+        raise e
 
 
 def get_picture_filename(picture):
     try:
-        filename = picture.headers[b"Content-Disposition"].decode().split(":")[1].split("-")[1]
+        logger.info(f"pic headers {picture.headers}")
+        filename = picture.headers[b"Content-Disposition"].decode("utf-8").split(":")[1].split("-")[1]
         if 4 > len(filename):
-            filename = picture.headers[b"Content-Disposition"].decode().split(":")[2].split("-")[1]
+            filename = picture.headers[b"Content-Disposition"].decode("utf-8").split(":")[2].split("-")[1]
     except Exception as e:
         filename = "not-found"
         logger.exception(e)

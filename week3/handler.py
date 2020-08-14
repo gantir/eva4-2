@@ -3,9 +3,11 @@ try:
 except ImportError:
     pass
 
+import base64
 import json
 from src.libs import utils
 from src.libs.logger import logger
+
 
 headers = {
     "Content-Type": "application/json",
@@ -66,18 +68,16 @@ def align_face(event, context):
 
 def face_swap(event, context):
     try:
-        pictures = utils.get_images_from_event(event, max_files=2)
-        from requests_toolbelt.multipart import encoder
-        import base64
+        files = utils.get_images_from_event(event, max_files=2)
 
-        # mpencoder = encoder.MultipartEncoder(
-        fields = {
-            "file1": ("file1.jpg", base64.b64encode(pictures[0][0].content).decode("utf-8"), "image/jpg"),
-            "file2": ("file2.png", base64.b64encode(pictures[0][0].content).decode("utf-8"), "image/jpg"),
-        }
-        # )
+        fields = {}
+        if len(files) == 2:
+            for i, file, _filename in enumerate(files):
+                fields["file" + i] = ("file" + i + ".jpg", base64.b64decode(file.content).decode("utf-8"), "image/jpg")
 
-        return {"statusCode": 200, "headers": headers, "body": json.dumps(fields)}
+            return {"statusCode": 200, "headers": headers, "body": json.dumps(fields)}
+        else:
+            return {"statusCode": 400, "headers": headers, "body": "2 files couldn't be found in input"}
 
     except Exception as e:
         return {

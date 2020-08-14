@@ -37,9 +37,10 @@ dlib = "^19.21.0"
 opencv-python = "^4.4.0"
 torchsummary = "^1.5.1"
 tqdm = "^4.48.2"
-boto = "^2.49.0"
 
 [tool.poetry.dev-dependencies]
 pelican = "^4.2.0"
 rstcheck = "^3.3.1"
 markdown = "^3.2.2"
+boto3 = "^1.14.42"
+requests_toolbelt = "^0.9.1"
