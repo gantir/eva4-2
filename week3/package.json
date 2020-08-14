@@ -4,8 +4,7 @@
   "version": "0.1.0",
   "dependencies": {},
   "scripts": {
-    "deploy": "serverless deploy",
-    "deploy-from-local": "serverless deploy --aws-profile eva4p2"
+    "deploy": "serverless deploy"
   },
   "devDependencies": {
     "serverless": "^1.74.1",
