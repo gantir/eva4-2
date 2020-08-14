@@ -1,15 +1,15 @@
 ---
 # This is a basic workflow to help you get started with Actions
 
-name: EVA4 Phase2 Week1
+name: EVA4 Phase2 Week3
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
     push:
-        branches: [master, develop]
+        branches: [master]
     pull_request:
-        branches: [master, develop]
+        branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -19,7 +19,7 @@ jobs:
         runs-on: ubuntu-latest
         defaults:
             run:
-                working-directory: week1
+                working-directory: week3
         strategy:
             matrix:
                 node-version: [14.x]
