@@ -35,8 +35,9 @@ def get_images_from_event(event, max_files=1):
 
 def get_picture_filename(picture):
     try:
-        logger.info(f"pic headers {picture.headers}")
-        filename = picture.headers[b"Content-Disposition"].decode("utf-8").split(":")[1].split("-")[1]
+        logger.info("pic headers {}".format(picture.headers[b"Content-Disposition"]))
+        logger.info("pic headers {}".format(picture.headers[b"Content-Disposition"].decode("utf-8")))
+        filename = picture.headers[b"Content-Disposition"].decode("utf-8").split(";")[1].split("-")[1]
         if 4 > len(filename):
             filename = picture.headers[b"Content-Disposition"].decode("utf-8").split(":")[2].split("-")[1]
     except Exception as e:

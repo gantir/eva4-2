@@ -72,14 +72,19 @@ def face_swap(event, context):
 
         fields = {}
         if len(files) == 2:
-            for i, file, _filename in enumerate(files):
-                fields["file" + i] = ("file" + i + ".jpg", base64.b64decode(file.content).decode("utf-8"), "image/jpg")
+            for i, (file, _filename) in enumerate(files):
+                fields["file" + str(i)] = (
+                    "file" + str(i) + ".jpg",
+                    base64.b64encode(file.content).decode("utf-8"),
+                    "image/jpg",
+                )
 
             return {"statusCode": 200, "headers": headers, "body": json.dumps(fields)}
         else:
             return {"statusCode": 400, "headers": headers, "body": "2 files couldn't be found in input"}
 
     except Exception as e:
+        logger.exception(e)
         return {
             "statusCode": 500,
             "headers": headers,
