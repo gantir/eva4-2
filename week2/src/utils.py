@@ -4,8 +4,8 @@ except ImportError:
     pass
 
 import base64
-
 from requests_toolbelt.multipart import decoder, encoder
+
 from src.logger import logger
 
 

@@ -1,7 +1,12 @@
+[build-system]
+requires = [ "poetry>=0.12",]
+build-backend = "poetry.masonry.api"
+
 [tool.autopep8]
 in-place = true
 aggressive = true
 experimental = true
+max-line-length = 120
 remove-all-unused-imports = true
 ignore-init-module-imports = true
 remove-unused-variable = true
@@ -11,3 +16,31 @@ ignore = [ "E231",]
 line-length = 120
 include = "\\.pyi?$"
 exclude = "(\n  /(\n      \\.eggs         # exclude a few common directories in the\n    | \\.git          # root of the project\n    | \\.hg\n    | \\.mypy_cache\n    | \\.tox\n    | \\.venv\n    | _build\n    | buck-out\n    | build\n    | dist\n  )/\n  | foo.py           # also separately exclude a file named foo.py in\n                     # the root of the project\n)\n"
+
+[tool.check-manifest]
+ignore = [ "PKG-INFO", "*.egg-info", "*.egg-info/*", "setup.cfg", ".hgtags", ".hgsigs", ".hgignore", ".gitignore", ".bzrignore", ".gitattributes", ".github/*", ".travis.yml", "Jenkinsfile", "*.mo",]
+
+[tool.poetry]
+name = "eva4-p2"
+version = "0.1.0"
+description = "All the course work part of EVA4 Phase 2 for the RS Group."
+authors = [ "Ramjee Ganti <code@ramjeeganti.com>",]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+python-decouple = "^3.3"
+torch = "^1.6.0"
+torchvision = "^0.7.0"
+requests_toolbelt = "^0.9.1"
+dlib = "^19.21.0"
+opencv-python = "^4.4.0"
+torchsummary = "^1.5.1"
+tqdm = "^4.48.2"
+
+[tool.poetry.dev-dependencies]
+pelican = "^4.2.0"
+rstcheck = "^3.3.1"
+markdown = "^3.2.2"
+boto3 = "^1.14.42"
+requests_toolbelt = "^0.9.1"

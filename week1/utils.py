@@ -5,7 +5,6 @@ except ImportError:
 
 import base64
 import logging
-
 from requests_toolbelt.multipart import decoder, encoder
 
 # Retrieve the logger instance
