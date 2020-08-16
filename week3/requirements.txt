@@ -1,2 +1,4 @@
 dlib
+numpy
+opencv-python
 requests_toolbelt
