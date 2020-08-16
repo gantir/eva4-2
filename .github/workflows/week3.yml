@@ -34,6 +34,10 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - name: Install Dependencies
               run: npm install
+            - name: Download Model Artifacts
+              run: |
+                bash
+                (echo "from src.models.facerec.facerec import FaceRecognition"; echo "FaceRecognition.downloadArtifacts()" )| python
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v1
               with:
