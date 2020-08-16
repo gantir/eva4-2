@@ -1,0 +1,14 @@
+* https://blog.alloy.co/deploying-aws-lambda-layers-with-pandas-for-data-science-38fe37a44a81
+* https://medium.com/@qtangs/creating-new-aws-lambda-layer-for-python-pandas-library-348b126e9f3e
+* https://github.com/JonathanPorta/lambda_image_utils_prebuilt/blob/master/Dockerfile
+* https://github.com/bweigel/aws-lambda-tesseract-layer/blob/master/Dockerfile
+* https://github.com/bweigel/aws-lambda-tesseract-layer/blob/master/example/serverless.yml
+* https://www.serverless.com/framework/docs/providers/aws/guide/layers/
+* https://dev.to/matthewvielkind/creating-python-aws-lambda-layers-with-docker-4376
+* https://blog.quiltdata.com/an-easier-way-to-build-lambda-deployment-packages-with-docker-instead-of-ec2-9050cd486ba8
+* https://github.com/quiltdata/lambda/blob/master/Dockerfile
+* https://github.com/tiivik/LambdaZipper
+* https://github.com/awslabs/aws-lambda-container-image-converter
+* https://levelup.gitconnected.com/creating-a-lambda-layer-via-docker-python-layers-docker-e4e318717822
+* https://medium.com/@johnmarciniak/using-docker-to-build-an-aws-lambda-layer-with-pandas-and-numpy-python-3-8-fe1a528e299b
+* https://gist.github.com/chrish10e/889c362802dd781e7ab6cf991a8121bd

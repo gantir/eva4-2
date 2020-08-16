@@ -28,18 +28,16 @@ authors = [ "Ramjee Ganti <code@ramjeeganti.com>",]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.7"
 python-decouple = "^3.3"
-torch = "^1.6.0"
-torchvision = "^0.7.0"
 requests_toolbelt = "^0.9.1"
 dlib = "^19.21.0"
 opencv-python = "^4.4.0"
-torchsummary = "^1.5.1"
-tqdm = "^4.48.2"
+numpy = "^1.19.1"
 
 [tool.poetry.dev-dependencies]
 pelican = "^4.2.0"
 rstcheck = "^3.3.1"
 markdown = "^3.2.2"
+pre-commit = "^2.6.0"
 boto3 = "^1.14.42"
