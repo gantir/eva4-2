@@ -37,6 +37,7 @@ jobs:
             - name: Download Model Artifacts
               run: |
                 bash
+                pwd
                 (echo "from src.models.facerec.facerec import FaceRecognition"; echo "FaceRecognition.downloadArtifacts()" )| python
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v1
