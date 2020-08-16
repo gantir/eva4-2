@@ -47,7 +47,7 @@ def face_align(event, context):
         picture_ndarray = cv2.imdecode(np.frombuffer(picture.content, np.uint8), -1)
 
         f = FaceRecognition()
-        aligned_face = f.alignFace(picture_ndarray)
+        err, aligned_face = f.alignFace(picture_ndarray)
 
         fields = {"file0": ("file0", base64.b64encode(aligned_face).decode("utf-8"), "image/jpg",)}
 
@@ -77,7 +77,7 @@ def face_mask(event, context):
         picture_ndarray = cv2.imdecode(np.frombuffer(picture.content, np.uint8), -1)
 
         f = FaceRecognition()
-        n95_msk_img = f.faceMask(n95_msk_src_img, picture_ndarray)
+        err, n95_msk_img = f.faceMask(n95_msk_src_img, picture_ndarray)
 
         fields = {"file0": ("file0", base64.b64encode(n95_msk_img).decode("utf-8"), "image/jpg",)}
 
@@ -106,7 +106,7 @@ def face_swap(event, context):
             src_img_ndarray = cv2.imdecode(np.frombuffer(files[0][0].content, np.uint8), -1)
             dest_img_ndarray = cv2.imdecode(np.frombuffer(files[1][0].content, np.uint8), -1)
             f = FaceRecognition()
-            swapped_img = f.faceSwap(src_img_ndarray, dest_img_ndarray)
+            err, swapped_img = f.faceSwap(src_img_ndarray, dest_img_ndarray)
             fields = {"file0": ("file0", base64.b64encode(swapped_img).decode("utf-8"), "image/jpg",)}
 
             return {"statusCode": 200, "headers": headers, "body": json.dumps(fields)}

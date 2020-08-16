@@ -120,7 +120,8 @@ class FaceRecognition:
             dest_img_warped = self.calculate_delaunay_triangles(src_face_img, dest_face_img, src_hull, dest_hull)
             transformed_img = self.do_seamless_clone(dest_face_img, dest_img_warped, hull8U)
             # https://stackoverflow.com/questions/26778079/valueerror-ndarray-is-not-c-contiguous-in-cython
-            return transformed_img.copy(order="C")
+            # https://stackoverflow.com/questions/40928205/python-opencv-image-to-byte-string-for-json-transfer
+            return cv2.imencode(".jpg", cv2.cvtColor(transformed_img, cv2.COLOR_BGR2RGB))
         else:
             raise ValueError("No human face detected in the image")
 
@@ -140,6 +141,6 @@ class FaceRecognition:
             imNorm, points = fbc.normalizeImagesAndLandmarks((h, w), src_face_img, points)
             imNorm = np.uint8(imNorm * 255)
             align_face_img = imNorm[:, :, ::-1]
-            return align_face_img.copy(order="C")
+            return cv2.imencode(".jpg", cv2.cvtColor(align_face_img, cv2.COLOR_BGR2RGB))
         else:
             raise ValueError("No human face detected in the image")
