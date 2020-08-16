@@ -134,14 +134,13 @@ dmypy.json
 .DS_Store
 
 # Node modules
-node_modules
+node_modules/
 
 # Serverless
-.serverless
+.serverless/
 
 ## Application specific
 # Model folders
-model/
 
 # Project Specific
 frontend/output/
