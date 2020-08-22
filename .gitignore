@@ -140,7 +140,9 @@ node_modules/
 .serverless/
 
 ## Application specific
-# Model folders
+# Model & Data folders
+data/
+model/
 
 # Project Specific
 frontend/output/
