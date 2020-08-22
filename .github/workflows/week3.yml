@@ -36,10 +36,10 @@ jobs:
               run: npm install
             - name: Download Model Artifacts
               run: |
-                wget https://github.com/davisking/dlib-models/raw/master/shape_predictor_5_face_landmarks.dat.bz2 -P ./model/shape_predictor_5_face_landmarks.dat.bz2
-                wget https://github.com/davisking/dlib-models/raw/master/shape_predictor_68_face_landmarks.dat.bz2 -P ./model/shape_predictor_68_face_landmarks.dat.bz2
-                wget https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml -P ./model/haarcascade_frontalface_default.xml
-                wget https://github.com/EVA4-RS-Group/Phase2/releases/download/s2/3M-KN95-9501-Dust-Mask_v1.jpg -P ./data/3M-KN95-9501-Dust-Mask_v1.jpg
+                wget https://github.com/davisking/dlib-models/raw/master/shape_predictor_5_face_landmarks.dat.bz2 -P ./model/
+                wget https://github.com/davisking/dlib-models/raw/master/shape_predictor_68_face_landmarks.dat.bz2 -P ./model/
+                wget https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml -P ./model/
+                wget https://github.com/EVA4-RS-Group/Phase2/releases/download/s2/3M-KN95-9501-Dust-Mask_v1.jpg -P ./data/
                 bzip2 -dk ./model/shape_predictor_5_face_landmarks.dat.bz2
                 bzip2 -dk ./model/shape_predictor_68_face_landmarks.dat.bz2
             - name: Configure AWS Credentials
