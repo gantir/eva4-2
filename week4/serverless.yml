@@ -98,7 +98,6 @@ package:
         - .editorconfig
         - .DS_Store
         - Readme.md
-        - data/**
         - model/**
         - models/**
         - layer
