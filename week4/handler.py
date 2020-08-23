@@ -63,12 +63,11 @@ def _face_align(picture, picture_name):
 def face_rec(event, context):
     try:
         picture, picture_name = utils.get_images_from_event(event, max_files=1)[0]
-        aligned_face = _face_align(picture, picture_name)
+        aligned_face = base64.b64decode(_face_align(picture, picture_name))
         inception_resnet = InceptionResnetHelper()
         inception_resnet.load_model(S3_BUCKET)
         picture_tensor = inception_resnet.transform_image(aligned_face)
         prediction_idx, prediction_label = inception_resnet.get_prediction(picture_tensor)
-
         return {
             "statusCode": 200,
             "headers": headers,

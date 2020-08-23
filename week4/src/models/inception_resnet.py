@@ -1,3 +1,4 @@
+import csv
 import io
 import json
 import logging
@@ -19,8 +20,8 @@ class InceptionResnetHelper:
         try:
             map = {}
             with open("data/face_recognition_clsidx_to_labels.csv", "r") as f:
-                for row in f.readline():
-                    map[row[0]] = row[1]
+                reader = csv.reader(f)
+                map = {row[0]: row[1] for row in reader}
             return map
         except Exception as e:
             logger.exception(e)
@@ -36,7 +37,7 @@ class InceptionResnetHelper:
 
     def load_model(self, s3_bucket: str):
         try:
-            # s3 = boto3.session.Session(profile_name='eva4p2').client("s3") # noqa
+            # @todo: fetch only if it doesn't exist locally
             s3 = boto3.client("s3")
             model_path = os.path.join("artifacts/models", f"{self._model_name}.pt")
             obj = s3.get_object(Bucket=s3_bucket, Key=model_path)
