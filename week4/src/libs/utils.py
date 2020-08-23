@@ -4,6 +4,7 @@ except ImportError:
     pass
 
 import base64
+import os
 from requests_toolbelt.multipart import decoder, encoder
 
 from src.libs.logger import logger
@@ -13,7 +14,10 @@ def get_images_from_event(event, max_files=1):
     try:
         pic_details = []
 
-        content_type_header = event["headers"]["content-type"]
+        content_type_key = "Content-Type"
+        if event["headers"].get(content_type_key.lower()):
+            content_type_key = content_type_key.lower()
+        content_type_header = event["headers"][content_type_key]
 
         body = base64.b64decode(event["body"])
         if type(event["body"]) is str:
@@ -35,11 +39,18 @@ def get_images_from_event(event, max_files=1):
 
 def get_picture_filename(picture):
     try:
-        logger.info("pic headers {}".format(picture.headers[b"Content-Disposition"]))
-        logger.info("pic headers {}".format(picture.headers[b"Content-Disposition"].decode("utf-8")))
-        filename = picture.headers[b"Content-Disposition"].decode("utf-8").split(";")[1].split("-")[1]
-        if 4 > len(filename):
-            filename = picture.headers[b"Content-Disposition"].decode("utf-8").split(":")[2].split("-")[1]
+        header = picture.headers[b"Content-Disposition"].decode("utf-8")
+        key = ""
+        filename = ""
+
+        if "filename" in header:
+            key = "filename"
+        elif "name" in header:
+            key = "name"
+
+        if key:
+            filename = [x.strip() for x in header.split(";") if key in x][0].split("=")[1].strip('"')
+
     except Exception as e:
         filename = "not-found"
         logger.exception(e)
@@ -49,7 +60,9 @@ def get_picture_filename(picture):
 
 def get_multipartdata(file_path):
 
-    multipartdata = encoder.MultipartEncoder(fields={"file": (file_path, open(file_path, "rb"))})
+    multipartdata = encoder.MultipartEncoder(
+        fields={"file": (os.path.basename(file_path), open(file_path, "rb").read())}
+    )
     return multipartdata
 
 

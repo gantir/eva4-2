@@ -34,6 +34,7 @@ provider:
     iamRoleStatements:
         - Effect: Allow
           Action:
+              - s3:PutObject
               - s3:getObject
           Resource: arn:aws:s3:::eva4-p2/*
 
@@ -100,6 +101,7 @@ package:
         - data/**
         - model/**
         - models/**
+        - layer
 
 functions:
     hello:
@@ -108,15 +110,16 @@ functions:
             - http:
                   path: hello
                   method: get
-    face_swap:
-        handler: handler.face_swap
+    face_rec:
+        handler: handler.face_rec
         memorySize: 3008
         timeout: 60
         events:
             - http:
-                  path: face_swap
+                  path: face_rec
                   method: post
                   cors: true
 plugins:
     - serverless-python-requirements
     - serverless-sam
+    - serverless-offline
