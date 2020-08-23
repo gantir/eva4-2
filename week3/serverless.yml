@@ -80,7 +80,7 @@ custom:
         cacheLocation: ./cache
 # you can add packaging information here
 package:
-    individually: false
+    individually: false,
     exclude:
         - package.json
         - package-lock.json
@@ -183,3 +183,4 @@ functions:
 plugins:
     - serverless-python-requirements
     - serverless-sam
+    - serverless-offline
