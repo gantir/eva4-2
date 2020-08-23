@@ -138,9 +138,12 @@ class FaceRecognition:
             h = 600
             w = 600
             # Normalize image to output co-orindates
-            imNorm, points = fbc.normalizeImagesAndLandmarks((h, w), src_face_img, points)
-            imNorm = np.uint8(imNorm * 255)
-            align_face_img = imNorm[:, :, ::-1]
-            return cv2.imencode(".jpg", cv2.cvtColor(align_face_img, cv2.COLOR_BGR2RGB))
+            if len(points) > 0:
+                imNorm, points = fbc.normalizeImagesAndLandmarks((h, w), src_face_img, points)
+                imNorm = np.uint8(imNorm * 255)
+                align_face_img = imNorm[:, :, ::-1]
+                return cv2.imencode(".jpg", cv2.cvtColor(align_face_img, cv2.COLOR_BGR2RGB))
+            else:
+                raise ValueError("Couldn't detect landmarks on the image")
         else:
             raise ValueError("No human face detected in the image")
