@@ -9,7 +9,10 @@ import json
 import numpy as np
 from src.libs import utils
 from src.libs.logger import logger
-from src.models.facerec.facerec import FaceRecognition
+import os
+from src.models.inception_resnet import InceptionResnetHelper
+from requests_toolbelt.multipart.encoder import MultipartEncoder
+import requests
 
 
 headers = {
@@ -41,82 +44,36 @@ def hello(event, context):
     """
 
 
-def face_align(event, context):
+def _face_align(picture, picture_name):
     try:
-        picture, picturename = utils.get_images_from_event(event, max_files=1)[0]
-        picture_ndarray = cv2.imdecode(np.frombuffer(picture.content, np.uint8), -1)
+        face_align_url = "https://gh1xz0gzpj.execute-api.ap-south-1.amazonaws.com/dev/face_align"
+        m = MultipartEncoder(fields={"files[0]": (picture_name, picture.content, "image/jpeg")})
 
-        f = FaceRecognition()
-        err, aligned_face = f.alignFace(picture_ndarray)
-
-        fields = {"file0": ("file0", base64.b64encode(aligned_face).decode("utf-8"), "image/jpg",)}
-
-        return {"statusCode": 200, "headers": headers, "body": json.dumps(fields)}
-
-    except ValueError as ve:
-        logger.exception(ve)
-        return {
-            "statusCode": 422,
-            "headers": headers,
-            "body": json.dumps({"error": repr(ve)}),
-        }
+        response = requests.post(
+            face_align_url, data=base64.b64encode(m.read()).decode("utf-8"), headers={"content-type": m.content_type}
+        )
+        if response.status_code == requests.codes.ok:
+            return json.loads(response.text)["file0"][1]
+        response.raise_for_status()
     except Exception as e:
-        logger.exception(e)
-        return {
-            "statusCode": 500,
-            "headers": headers,
-            "body": json.dumps({"error": repr(e)}),
-        }
+        logger.warning(e)
+        raise e
 
 
-def face_mask(event, context):
+def face_rec(event, context):
     try:
-        picture, picturename = utils.get_images_from_event(event, max_files=1)[0]
+        picture, picture_name = utils.get_images_from_event(event, max_files=1)[0]
+        aligned_face = _face_align(picture, picture_name)
+        inception_resnet = InceptionResnetHelper()
+        inception_resnet.load_model(S3_BUCKET)
+        picture_tensor = inception_resnet.transform_image(aligned_face)
+        prediction_idx, prediction_label = inception_resnet.get_prediction(picture_tensor)
 
-        n95_msk_src_img = cv2.imread("data/3M-KN95-9501-Dust-Mask_v1.jpg")
-        picture_ndarray = cv2.imdecode(np.frombuffer(picture.content, np.uint8), -1)
-
-        f = FaceRecognition()
-        err, n95_msk_img = f.faceMask(n95_msk_src_img, picture_ndarray)
-
-        fields = {"file0": ("file0", base64.b64encode(n95_msk_img).decode("utf-8"), "image/jpg",)}
-
-        return {"statusCode": 200, "headers": headers, "body": json.dumps(fields)}
-
-    except ValueError as ve:
-        logger.exception(ve)
         return {
-            "statusCode": 422,
+            "statusCode": 200,
             "headers": headers,
-            "body": json.dumps({"error": repr(ve)}),
+            "body": json.dumps({"file": picture_name, "predicted": prediction_label}),
         }
-    except Exception as e:
-        logger.exception(e)
-        return {
-            "statusCode": 500,
-            "headers": headers,
-            "body": json.dumps({"error": repr(e)}),
-        }
-
-
-def face_swap(event, context):
-    try:
-        files = utils.get_images_from_event(event, max_files=2)
-        if len(files) == 2:
-            src_img_ndarray = cv2.imdecode(np.frombuffer(files[0][0].content, np.uint8), -1)
-            dest_img_ndarray = cv2.imdecode(np.frombuffer(files[1][0].content, np.uint8), -1)
-            f = FaceRecognition()
-            err, swapped_img = f.faceSwap(src_img_ndarray, dest_img_ndarray)
-            fields = {"file0": ("file0", base64.b64encode(swapped_img).decode("utf-8"), "image/jpg",)}
-
-            return {"statusCode": 200, "headers": headers, "body": json.dumps(fields)}
-        else:
-            return {
-                "statusCode": 400,
-                "headers": headers,
-                "body": "Please pass exactly 2 files as input",
-            }
-
     except ValueError as ve:
         logger.exception(ve)
         return {
