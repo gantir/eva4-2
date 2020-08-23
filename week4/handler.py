@@ -4,9 +4,7 @@ except ImportError:
     pass
 
 import base64
-import cv2
 import json
-import numpy as np
 from src.libs import utils
 from src.libs.logger import logger
 import os
