@@ -56,7 +56,11 @@ class InceptionResnetHelper:
     def transform_image(self, image_bytes):
         try:
             transformations = transforms.Compose(
-                [transforms.ToTensor(), transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),]
+                [
+                    transforms.Resize(160),
+                    transforms.ToTensor(),
+                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+                ]
             )
             image = Image.open(io.BytesIO(image_bytes))
             return transformations(image).unsqueeze(0)

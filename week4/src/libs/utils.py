@@ -61,7 +61,7 @@ def get_picture_filename(picture):
 def get_multipartdata(file_path):
 
     multipartdata = encoder.MultipartEncoder(
-        fields={"file": (os.path.basename(file_path), open(file_path, "rb").read())}
+        fields={"files[0]": (os.path.basename(file_path), open(file_path, "rb").read(), "image/jpeg")}
     )
     return multipartdata
 

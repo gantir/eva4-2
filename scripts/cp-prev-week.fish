@@ -12,10 +12,3 @@ cd $argv[2]
 npm install
 
 serverless
-
-python3 -m venv .venv
-
-source .venv/bin/activate.fish
-
-pip install -r ../requirements-dev.txt
-pip install -r requirements.txt
